@@ -3,10 +3,10 @@ import SwiftUI
 import UIKit
 
 private enum Status: String {
-    case error = "❌ Error"
-    case notStarted = "🏴‍☠️ Erika"
-    case success = "✅ Success"
-    case waiting = "⏳ Waiting"
+    case error = "An error has occured, If this happens again then the tweak may not work anymore"
+    case notStarted = "Not doing anything rn..."
+    case success = "The tweak was sucessfully downloaded"
+    case waiting = "Searching our database for your tweak... This shouldn't take long"
 }
 
 private struct VisualEffectView: UIViewRepresentable {
