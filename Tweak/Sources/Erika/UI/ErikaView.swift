@@ -1,4 +1,3 @@
-import Jinx
 import SwiftUI
 import UIKit
 
@@ -67,50 +66,3 @@ struct ErikaView: View {
                     .frame(minWidth: 180, minHeight: 70)
                     .buttonStyle(.plain)
                     .background(Color.red)
-                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-                    .disabled(status == .waiting)
-                    .opacity(status == .waiting ? 0.5 : 1.0)
-            }
-        }
-    }
-    
-    private func download() {
-        status = .waiting
-        progress = "Erika is preparing, please wait warmly..."
-        
-        Task {
-            do {
-                try await ErikaDownloader.download(package: package, version: version)
-                status = .success
-                progress = "<Very good!>"
-            } catch {
-                progress = error.localizedDescription
-                status = .error
-            }
-        }
-    }
-    
-    private func getZappy() {
-        let fileName: String = "/var/mobile/Media/Erika/\(package)_v\(version)_iphoneos-arm.deb".withRootPath()
-        
-        if let url: URL = .init(string: "filza://view/\(fileName)") {
-            dontGetZappy()
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    private func dontGetZappy() {
-        UIView.animate(withDuration: 0.5, animations: { ErikaWindow.shared.alpha = 0 }) { isDone in
-            if isDone {
-                ErikaWindow.shared.isHidden = true
-                
-                CurrentTweak.package = package
-                CurrentTweak.version = version
-            }
-        }
-        
-        if let currentDepiction: UIViewController = CurrentTweak.currentDepiction {
-            currentDepiction.presentedViewController?.dismiss(animated: true)
-        }
-    }
-}
